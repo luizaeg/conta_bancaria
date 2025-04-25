@@ -32,6 +32,7 @@ public class Menu {
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+"                                                    ");
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"****************************************************");
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+"                                                    ");
+		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"    Entre com a opção desejada:                     ");
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+"                                                    ");
 		
 		opcao = leia.nextInt();
