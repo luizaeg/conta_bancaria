@@ -22,6 +22,7 @@ public class Conta {
 		this.saldo = saldo;
 	}
 	
+	
 	// Métodos -> Get lê e retorna um valor e o Set altera o valor 
 	//Caso algum valor não deveria ser visto é só não criar um get para um objeto, e caso um objeto não possa ser alterado, nao criar um set para ele.
 
@@ -106,7 +107,7 @@ public class Conta {
 		System.out.println("Tipo da Conta: " + tipo+"           ");
 		System.out.println("TÍtular da Conta: " + this.titular+"     ");
 		System.out.println("Saldo da Conta: " + nfMoeda.format(this.saldo)+"         ");
-		System.out.println("*****************************************");
+		
 	}
 		
 	
