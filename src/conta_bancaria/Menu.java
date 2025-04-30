@@ -1,8 +1,9 @@
 package conta_bancaria;
 
+import java.io.IOException;
 import java.util.Scanner;
 
-import conta_bancaria.model.Conta;
+import conta_bancaria.controller.ContaController;
 import conta_bancaria.model.ContaCorrente;
 import conta_bancaria.model.ContaPoupanca;
 import conta_bancaria.util.Cores;
@@ -13,24 +14,21 @@ public class Menu {
 		
 		
 		Scanner leia = new Scanner(System.in);
-		int opcao;
 		
-			
-		// Instanciando um objeto da Classe ContaCorrente
-		ContaCorrente cc1 = new ContaCorrente(2, 456, 1, "Renata Negrini", 600000, 60000);	
-		cc1.visualizar();
+		ContaController contas = new ContaController();
 		
-		cc1.sacar(610000);
-		cc1.visualizar();
+		int opcao, numero, agencia, tipo, aniversario;
+		String titular;
+		float saldo, limite;
 		
-		// Instanciando um objeto da Classe ContaPoupança
-		ContaPoupanca cp1 = new ContaPoupanca(2, 999, 2, "Maria Silva", 1500, 15);
-		cp1.visualizar();
-		cp1.sacar(300);
-		cp1.visualizar();
-		cp1.depositar(80);
-		cp1.visualizar();
+		// Dados para teste
 		
+		ContaCorrente cc1 = new ContaCorrente(contas.gerarNumero(), 123, 1, "João da Silva", 1000.00f, 100.00f);
+		contas.cadastrar(cc1);
+		ContaPoupanca cp1 = new ContaPoupanca(contas.gerarNumero(), 123, 2, "Maria da Silva", 1000.00f, 12);
+		contas.cadastrar(cp1);
+		
+	
 		while (true) {
 	
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+"                                                    ");
@@ -66,38 +64,66 @@ public class Menu {
 		switch (opcao) {
 			case 1:
 				System.out.println("Criar Conta\n\n");
-
+				
+				System.out.println("Digite o número da Agência: ");
+				agencia = leia.nextInt();
+				System.out.println("Digite o nome do Titular: ");
+				leia.skip("\\R");
+				titular = leia.nextLine();
+				System.out.println("Digite o tipo da Conta (1 - C/C | 2 - C/P): ");
+				tipo = leia.nextInt();
+				System.out.println("Digite o saldo da Conta: ");
+				saldo = leia.nextFloat();
+				
+				switch(tipo) {
+				case 1 -> {
+					System.out.println("Digite o limite da conta: ");
+					limite = leia.nextFloat();
+					contas.cadastrar(new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, limite));
+				}
+				case 2 -> {
+					System.out.println("Digite o dia do aniversário da conta: ");
+					aniversario = leia.nextInt();
+					contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
+				  }
+				}
+				keyPress();
 				break;
 			case 2:
 				System.out.println("Listar todas as Contas\n\n");
-
+				contas.listarTodas();				
+                keyPress();
 				break;
 			case 3:
 				System.out.println("Consultar dados da Conta - por número\n\n");
-
+				System.out.println("Digite o número da conta: ");
+				numero = leia.nextInt();
+				contas.procurarPorNumero(numero);
+                keyPress();
 				break;
 			case 4:
 				System.out.println("Atualizar dados da Conta\n\n");
-
+				keyPress();
 				break;
 			case 5:
 				System.out.println("Apagar a Conta\n\n");
-
+				keyPress();
 				break;
 			case 6:
 				System.out.println("Saque\n\n");
-
+				keyPress();
 				break;
 			case 7:
 				System.out.println("Depósito\n\n");
-
+				keyPress();
 				break;
 			case 8:
 				System.out.println("Transferência entre Contas\n\n");
-
+				keyPress();
 				break;
 			default:
 				System.out.println("\nOpção Inválida!\n");
+				keyPress();
 				break;
 		  }
 				
@@ -107,10 +133,24 @@ public class Menu {
 		public static void sobre() {
 			System.out.println("\n*********************************************************");
 			System.out.println("Projeto Desenvolvido por: ");
-			System.out.println("Generation Brasil - generation@generation.org");
-			System.out.println("github.com/conteudoGeneration");
+			System.out.println("Luiza Gonçalves - luizae.goncalves@hotmail.com");
+			System.out.println("github.com/luizaeg");
 			System.out.println("*********************************************************");
 		
 	}
+		
+		public static void keyPress() {
+			 
+			try {
+	 
+				System.out.println(Cores.TEXT_RESET + "\n\nPressione Enter para Continuar...");
+				System.in.read();
+	 
+			} catch (IOException e) {
+	 
+				System.err.println("Ocorreu um erro ao tentar ler o teclado");
+	 
+			}
+		}
 
 }
