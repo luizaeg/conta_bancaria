@@ -3,6 +3,9 @@ package conta_bancaria.controller;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import java.util.List;
 
 import conta_bancaria.model.Conta;
 import conta_bancaria.repository.ContaRepository;
@@ -66,6 +69,21 @@ Optional<Conta> conta = buscarNaCollection(numero);
 			System.out.printf("\nA Conta número %d não foi encontada", numero);
 
 	}
+	
+	
+	@Override
+	public void listarPorTitular(String titular) {
+		
+	List<Conta> listaTitulares = listaContas.stream()
+				.filter(c -> c.getTitular().toUpperCase().contains(titular.toUpperCase()))
+				.collect(Collectors.toList());
+		if(listaTitulares.isEmpty())
+			System.out.printf("\nNenhuma conta foi encontrada com base no critério %s", titular);
+		for (var conta : listaTitulares)
+			conta.visualizar();
+		
+	}
+	
 
 	@Override
 	public void sacar(int numero, float valor) {
@@ -131,6 +149,7 @@ NumberFormat nfMoeda = NumberFormat.getCurrencyInstance();
 		return Optional.empty();
 		
 	}
+
 	
 
 }

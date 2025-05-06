@@ -21,7 +21,7 @@ public class Menu {
 		
 		int opcao, numero, agencia, tipo, aniversario, numeroDestino;
 		String titular;
-		float saldo = 0, limite;
+		float saldo, limite, valor;
 		
 		// Dados para teste
 		
@@ -47,7 +47,8 @@ public class Menu {
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"             6 - Sacar                              ");
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"             7 - Depositar                          ");
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"             8 - Transferir                         ");
-		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"             9 - Sair                               ");
+		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"             9 - Listar Conta por Titular           ");		
+		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"             0 - Sair                               ");
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+"                                                    ");
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+Cores.TEXT_CYAN_BOLD_BRIGHT+"****************************************************");
 		System.out.println(Cores.ANSI_BLACK_BACKGROUND+"                                                    ");
@@ -56,14 +57,14 @@ public class Menu {
 		
 		opcao = leia.nextInt();
 
-		if (opcao == 9) {
+		if (opcao == 0) {
 			System.out.println("\nBanco do Brazil com Z - O seu Futuro começa aqui!");
 			sobre();
              leia.close();
 			System.exit(0);
 		}
 
-		float valor;
+		
 		switch (opcao) {
 			case 1:
 				System.out.println("Criar Conta\n\n");
@@ -200,7 +201,17 @@ public class Menu {
 				
 				keyPress();
 				break;
-			default:
+			case 9:
+			    System.out.println("Consultar por Titular:\n\n");
+			    System.out.println("Digite o nome do Titular: ");
+			    leia.skip("\\R");
+			    titular = leia.nextLine();
+			    
+			    contas.listarPorTitular(titular);
+						    	
+			    keyPress();
+				break;
+		   default:
 				System.out.println("\nOpção Inválida!\n");
 				keyPress();
 				break;
@@ -219,17 +230,23 @@ public class Menu {
 	}
 		
 		public static void keyPress() {
-			 
-			try {
-	 
-				System.out.println(Cores.TEXT_RESET + "\n\nPressione Enter para Continuar...");
-				System.in.read();
-	 
-			} catch (IOException e) {
-	 
-				System.err.println("Ocorreu um erro ao tentar ler o teclado");
-	 
-			}
+		    try {
+		        System.out.println(Cores.TEXT_RESET + "\n\nPressione Enter para Continuar...");
+		        
+		        // Lê apenas a tecla Enter e ignora outras teclas
+		        int input;
+		        while ((input = System.in.read()) != '\n') {
+		            // Ignora qualquer outra tecla diferente do Enter
+		            if (input == -1) {
+		                throw new IOException("Entrada encerrada inesperadamente");
+		            }
+		        }
+		        
+		    } catch (IOException e) {
+		        System.err.println("Erro de entrada/saída: " + e.getMessage());
+		    } catch (Exception e) {
+		        System.err.println("Ocorreu um erro ao processar a entrada: " + e.getMessage());
+		    }
 		}
 
-}
+	}
